@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>Finalise Template Creation</h2>
+<mat-dialog-content>
+  <form [formGroup]="finalizeTemplateForm">
+    <div style="display: flex">
+      <mat-form-field style="width: 75%">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" (selectionChange)="setCategoryTags($event.value)">
+          <mat-option *ngFor="let category of getCategoryNames()"
+                      [value]="category">{{category}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-card *ngIf="loadedTags" style="margin-bottom: 24px">
+      <mat-card-header>Tags</mat-card-header>
+      <mat-card-content>
+        <mat-chip-listbox multiple formControlName="tags">
+          <mat-chip-option *ngFor="let tag of loadedTags" color="primary">{{tag}}</mat-chip-option>
+        </mat-chip-listbox>
+      </mat-card-content>
+    </mat-card>
+    <mat-form-field style="width: 75%">
+      <mat-label>Branching Permission</mat-label>
+      <mat-select formControlName="permission">
+        <mat-option *ngFor="let permission of getBranchPermissionValues()"
+                    [value]="permission">{{permission}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field style="width: 75%">
+      <mat-label>Access Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of getAccessStatusValues()" [value]="status">{{status}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <mat-form-field style="min-height: 112px; width: 100%">
+        <mat-label>Share template with other users</mat-label>
+        <mat-chip-grid #chipGrid formControlName="sharedWith">
+          <mat-chip-row *ngFor="let user of selectedUsers"
+                        (removed)="remove(user)"
+                        [editable]="true"
+                        (edited)="edit(user, $event)"
+                        [aria-description]="'press enter to edit ' + user"> {{user}}
+            <button matChipRemove [attr.aria-label]="'remove ' + user">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input placeholder="Usernames..."
+                 [matChipInputFor]="chipGrid"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true"
+                 (matChipInputTokenEnd)="add($event)"/>
+        </mat-chip-grid>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div style="width: 100%; height: 30px">
+    <mat-label *ngIf="errorMessage" style="color: red; padding-left: 16px;">{{errorMessage}}</mat-label>
+  </div>
+  <button mat-stroked-button (click)="closeDialog()" style="margin-left:24px" color="primary">Cancel</button>
+  <div style="margin-left: auto; margin-right: 24px; display: flex; align-items: center">
+    <mat-spinner *ngIf="spinnerActive" [diameter]="30" style="margin-right: 20px"></mat-spinner>
+    <button mat-stroked-button (click)="finaliseTemplateCreation()"
+            color="primary">Complete Template
+    </button>
+  </div>
+
+</mat-dialog-actions>

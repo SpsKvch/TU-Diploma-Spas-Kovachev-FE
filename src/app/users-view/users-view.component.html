@@ -1,0 +1,25 @@
+<div class="mainContainerOffset profilePagePadding pageColours">
+  <mat-card>
+    <mat-card-header class="the-dense-zone" style="margin-top: 16px; margin-bottom: 16px">
+        <mat-form-field subscriptSizing="dynamic" style="width: 100%;">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matNativeControl placeholder="Search" [(ngModel)]="searchQuery" (keydown.enter)="searchUsers()">
+        </mat-form-field>
+    </mat-card-header>
+    <mat-card-content>
+      <h1>Recently joined users</h1>
+      <mat-card style="margin-bottom: 16px" *ngFor="let user of fetchedUsers">
+        <mat-card-content>
+          <div style="display: flex; justify-content: center; align-items: center">
+            <a [routerLink]="'/users/'+user.username">{{user.username}}</a>
+            <button mat-raised-button color="primary" style="margin-left: auto"
+                    (click)="sendFriendRequest(user.username)" [disabled]="userIsAlreadyFriend(user.username)">Add Friend</button>
+          </div>
+          <div>
+            <label>{{getJoinDate(user.joinDate)}}</label>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>

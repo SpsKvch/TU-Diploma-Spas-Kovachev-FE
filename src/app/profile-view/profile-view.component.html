@@ -1,0 +1,78 @@
+<div class="mainContainerOffset profilePagePadding pageColours">
+  <div *ngIf="userDetails" class="userInfoContainer">
+    <mat-card style="height: 300px">
+      <mat-card-header style="padding-bottom: 2%; padding-top: 1%; margin-left: 1%; font-size: 28pt; align-items: center">
+        <mat-label>{{ userDetails.username }}</mat-label>
+        <img style="margin-left: auto; border-radius: 25px; width: 50px; height: 50px; margin-right: 2%"
+             [src]="getImage()" (click)="openImageDialog()">
+      </mat-card-header>
+      <mat-card-content>
+        <div style="font-size: 18pt; margin-left: 2%; margin-right: 2%">
+          <div *ngIf="userDetails.firstName" style="display: flex; margin-bottom: 12px">
+            <mat-label>Name:</mat-label>
+            <mat-label style="margin-left: auto">{{getName()}}</mat-label>
+          </div>
+          <div *ngIf="canShowEmail()" style="display: flex; margin-bottom: 12px">
+            <mat-label>Email:</mat-label>
+            <mat-label style="margin-left: auto">{{userDetails.currentEmail}}</mat-label>
+          </div>
+          <div *ngIf="userDetails.country" style="display: flex; margin-bottom: 12px">
+            <mat-label>Country:</mat-label>
+            <mat-label style="margin-left: auto">{{userDetails.country}}</mat-label>
+          </div>
+          <div style="display: flex; margin-bottom: 12px">
+            <mat-label>Joined On:</mat-label>
+            <mat-label style="margin-left: auto">{{getDateString()}}</mat-label>
+          </div>
+          <div *ngIf="userDetails.friends.length > 0" style="display: flex">
+            <mat-label>Number of Friends:</mat-label>
+            <mat-label style="margin-left: auto">{{userDetails.friends.length}}</mat-label>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="userDrafts && userDrafts.length > 0" class="templateListContainer">
+    <mat-card style="font-size: 18pt">
+      <mat-card-header>Drafts</mat-card-header>
+      <mat-card-content>
+        <mat-card *ngFor="let draft of userDrafts">
+          <mat-card-header>
+            <a [routerLink]="'/templates/myDrafts/' + draft.id" class="templateLink">{{ draft.title }}</a>
+          </mat-card-header>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="userJournals && userJournals.length > 0" class="templateListContainer">
+    <mat-card style="font-size: 18pt">
+      <mat-card-header>Journals</mat-card-header>
+      <mat-card-content>
+        <mat-card *ngFor="let journal of userJournals">
+          <mat-card-header>
+            <a [routerLink]="'/templates/journal/' + journal.originalTemplate.id" class="templateLink">
+              {{ journal.newTitle === null ? journal.originalTemplate.title : journal.newTitle }}</a>
+          </mat-card-header>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="userTemplates && userTemplates.length > 0" class="templateListContainer">
+    <mat-card style="font-size: 18pt">
+      <mat-card-header>
+        <mat-label style="padding-bottom: 8px">Templates</mat-label>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card  *ngFor="let template of userTemplates">
+          <mat-card-header>
+            <a [routerLink]="'/templates/' + template.id" class="templateLink">{{ template.title }}</a>
+          </mat-card-header>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div style="display: flex; font-size: 16pt; margin-bottom: 16px;">
+    <button *ngIf="isPersonalPage()" color="primary" mat-raised-button (click)="logout()">Logout</button>
+    <button *ngIf="hasAdminAccess" style="margin-left: auto;" color="primary" mat-raised-button (click)="redirectToAdminPage()">Admin Panel</button>
+  </div>
+</div>

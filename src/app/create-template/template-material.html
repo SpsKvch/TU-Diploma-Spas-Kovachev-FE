@@ -1,0 +1,186 @@
+<app-template-nav (navEvent)="working($event)" [templateDetails]="navInit"></app-template-nav>
+<div class="mainPanel templateSideNavOffset" style="margin-top: var(--mainContainerTopMargin); overflow: hidden;">
+  <form *ngIf="draftRequestForm" [formGroup]="draftRequestForm">
+    <mat-expansion-panel id="title" class="expansionPanel" [expanded]="true" hideToggle style="padding-top: 16px">
+<!--      <mat-expansion-panel-header>-->
+<!--        &lt;!&ndash;        <mat-panel-title class="expansionHeader">Title (Needs adjustment/Merge with content)</mat-panel-title>&ndash;&gt;-->
+
+<!--        &lt;!&ndash;        <input (click)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()"&ndash;&gt;-->
+<!--        &lt;!&ndash;               (keydown.enter)="$event.stopPropagation()" class="titleInput" formControlName="title" [value]="templateDraft?.title">&ndash;&gt;-->
+<!--      </mat-expansion-panel-header>-->
+      <mat-form-field appearance="outline" class="mat-form-field-wrapper"
+                      style="width: 100%;">
+        <mat-label>Title</mat-label>
+        <textarea style="font-size: 16pt" cdkTextareaAutosize placeholder="Enter title..." formControlName="title"
+                  (click)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()"
+                  (keydown.enter)="$event.stopPropagation()" matNativeControl></textarea>
+      </mat-form-field>
+      <div *ngIf="draftRequestForm.get('imageUrl')?.value!" style="width: 100%; padding-right: 2%; margin-top: 2%; margin-bottom: 2%">
+        <mat-card style="background-color: rgba(0, 0, 0, 0.5); width: 100%; height: 350px">
+          <img mat-card-md-image style="border-radius: 3%" [ngSrc]="draftRequestForm.get('imageUrl')?.value!" fill>
+        </mat-card>
+      </div>
+      <mat-form-field appearance="outline" class="mat-form-field-wrapper" style="width: 100%; padding-bottom: 0px; margin-top: 24px">
+        <mat-label>Content</mat-label>
+        <textarea style="font-size: 14pt; padding-left: 2%; padding-right: 2%; overflow: hidden; line-height: 125%; text-align: justify;"
+         cdkTextareaAutosize="true" placeholder="Enter content..." formControlName="content"
+                  matNativeControl></textarea>
+      </mat-form-field>
+
+      <mat-card style="margin-top: 16px; padding-top: 1%; padding-bottom: 1%">
+        <div style="display: flex">
+          <button mat-raised-button color="accent" style="font-size: 12pt; width: 150px;  margin-left: 2%"
+                  (click)="removeImage()">Remove Image
+          </button>
+          <button mat-raised-button color="accent" style="margin-left: auto; font-size: 12pt; width: 150px;  margin-right: 2%"
+                  (click)="openImageDialog()">Add Image
+          </button>
+        </div>
+      </mat-card>
+    </mat-expansion-panel>
+    <mat-expansion-panel id="requirements" class="expansionPanel" [expanded]="true" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="expansionHeader" id="req" style="align-items: center; justify-content: center">
+          <mat-label>Requirements</mat-label>
+          <button mat-fab (click)="insertRequirement($event)" class="controlButton">
+            <mat-icon style="scale: 75%">add</mat-icon>
+          </button>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div formArrayName="requirements" style="width: 100%;">
+        <div *ngFor="let req of requirementsForm.controls; let i=index">
+          <mat-card style="padding-top: 16px; padding-bottom: 16px; padding-left: 16px">
+            <div [formGroupName]="i">
+              <button mat-fab (click)="removeRequirement(i)" class="controlButton">
+                <mat-icon style="scale: 75%">clear</mat-icon>
+              </button>
+              <mat-form-field appearance="outline" class="mat-form-field-wrapper" style="width: 80%">
+                <mat-label>Description</mat-label>
+                <textarea type="text" style="width: 100%" class="stepTextArea"
+                          cdkTextareaAutosize="true"
+                          formControlName="content"
+                          matNativeControl></textarea>
+              </mat-form-field>
+              <mat-checkbox class="genericCheckbox" formControlName="optional">Optional</mat-checkbox>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="expansionPanel" #stepsPanel [expanded]="true" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="expansionHeader" id="steps">
+          <mat-label>Steps</mat-label>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div cdkDropList formArrayName="steps" style="width: 100%;" (cdkDropListDropped)="drop($event)">
+        <div *ngFor="let step of stepsForm.controls; let i=index">
+          <div [formGroupName]="i" cdkDrag cdkDragBoundary=".expansionPanel" [cdkDragDisabled]="draggingDisabled">
+            <div class="custom-placeholder" *cdkDragPlaceholder></div>
+            <div style="width: 100%" #stepArray>
+              <mat-expansion-panel class="expansionPanel" [expanded]="true" hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title [id]="step.value.title" class="expansionHeader" (keydown.space)="$event.stopPropagation()">
+                    <mat-label style="font-size: 16pt; padding-right: 12px">{{ i + 1 }}</mat-label>
+                    <input class="titleInput" formControlName="title" [value]="getTitle(i)" (click)="$event.stopPropagation()"
+                           (mousedown)="$event.stopPropagation()">
+                    <button mat-fab (click)="insertNewStep($event, i)" class="controlButton">
+                      <mat-icon style="scale: 75%">add</mat-icon>
+                    </button>
+                    <button mat-fab (click)="removeStep(i)" class="controlButton">
+                      <mat-icon style="scale: 75%">clear</mat-icon>
+                    </button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div style="display: flex" (mouseenter)="disableDragging()" (mouseleave)="enableDragging()">
+                  <mat-form-field appearance="outline" style="width: 70%; font-size: 16pt">
+                    <mat-label>Description</mat-label>
+                    <textarea type="text" style="font-size: 14pt; margin-top: 10px" class="stepTextArea"
+                              cdkTextareaAutosize="true"
+                              formControlName="content"
+                              matNativeControl></textarea>
+                  </mat-form-field>
+                  <div *ngIf="step.value.imageUrl" style="margin-left: auto; width: 30%; padding-right: 2%; padding-bottom: 2%; display: flex">
+                    <mat-card style="height: 250px; width: 250px; background-color: rgba(0, 0, 0, 0); margin-left: auto; justify-content: center">
+                      <img mat-card-md-image style="border-radius: 3%; background-color: transparent" [ngSrc]="step.value.imageUrl" fill>
+                    </mat-card>
+                  </div>
+                </div>
+                <mat-card (mouseenter)="disableDragging()" (mouseleave)="enableDragging()">
+                  <mat-card-header style="font-size: 14pt">Time estimate</mat-card-header>
+                  <div>
+                    <div style="padding-left: 16px">
+                      <mat-label style="font-size: 12pt;">Min</mat-label>
+                    </div>
+                    <div style="display: flex">
+                      <label class="timeEstimateLabel">{{ getMinTimeEstimate(i).value.duration }}</label>
+                      <mat-slider discrete showTickMarks min="1" max="60" (click)="logInfo($event, 'no drags')">
+                        <input [formControl]="getMinTimeEstimateControl(i)" matSliderThumb>
+                      </mat-slider>
+                      <mat-form-field style="font-size: 12pt; max-width: 150px; max-height: 60px">
+                        <select matNativeControl [formGroup]="getMinTimeEstimate(i)" style="width: 100%">
+                          <option *ngFor="let frame of timeframeValues" [ngValue]="frame">{{ frame }}</option>
+                        </select>
+                      </mat-form-field>
+                      <mat-checkbox class="genericCheckbox" formControlName="important" style="margin-left: 5%">
+                        Important
+                      </mat-checkbox>
+                      <button mat-raised-button color="accent" style="margin-left: auto; font-size: 12pt; width: 150px; margin-right: 4%"
+                              (click)="openImageDialogForStep(i)">Add Image
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="padding-left: 16px">
+                      <mat-label style="font-size: 12pt;">Max</mat-label>
+                    </div>
+                    <div style="display: flex">
+                      <label class="timeEstimateLabel">{{ getMaxTimeEstimate(i).value.duration }}</label>
+                      <mat-slider showTickMarks min="1" max="60">
+                        <input [formControl]="getMaxTimeEstimateControl(i)" matSliderThumb>
+                      </mat-slider>
+                      <mat-form-field style="font-size: 12pt; max-width: 150px; max-height: 60px">
+                        <select matNativeControl [formGroup]="getMaxTimeEstimate(i)" style="width: 100%">
+                          <option *ngFor="let frame of timeframeValues" [ngValue]="frame">{{ frame }}</option>
+                        </select>
+                      </mat-form-field>
+                      <mat-checkbox class="genericCheckbox" formControlName="optional"
+                                    style="margin-left: 5%">Optional
+                      </mat-checkbox>
+                      <button mat-raised-button color="accent" style="margin-left: auto; font-size: 12pt; width: 150px; margin-right: 4%"
+                              (click)="removeImageFromStep(i)">Remove Image
+                      </button>
+                    </div>
+                  </div>
+                </mat-card>
+
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <div style="font-size: 16pt; color: red; padding-left: 50px; margin-top: 20px" *ngIf="updateDraftErrorMessage">
+      <mat-label>{{ updateDraftErrorMessage }}</mat-label>
+    </div>
+    <div style="display: flex; padding: 20px 50px 20px 50px; align-items: center">
+      <button mat-raised-button color="primary" [disabled]="draftIsNew()" value="Save" (click)="deleteDraft()">Delete</button>
+      <div style="margin-left: auto; display: flex">
+        <button mat-raised-button color="primary" value="Save" (click)="saveDraft()" style="margin-right: 20px">Save</button>
+        <button mat-raised-button color="primary" type="submit" style="margin-left: auto" (click)="openDialog()">
+          Complete
+        </button>
+      </div>
+      <!--      <button class="mainButton" type="submit" style="margin-left: auto">Complete</button>-->
+    </div>
+  </form>
+</div>
+<div style="height: 5px"></div>
+<div *ngIf="complete" #selectPanel
+     style="z-index: 2; display: flex; position:absolute; align-items: center; justify-content: center; height: 100%; width: 100%; top: 100px; left: 0px;">
+  <div style=" z-index: 2; background-color: aqua; width: 500px; height: 500px;" [style]="templateDraft?.content">
+    Удряй бай филипе
+  </div>
+</div>
+

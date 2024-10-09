@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+
+.dialogHeader {
+  font-size: 24pt;
+  padding-left: 24px;
+  margin-top: 8px;
+  margin-bottom: 28px;
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+}
+
+.friendName, a:visited {
+  text-decoration: none;
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+  font-size: 16pt;
+  padding-left: 16px;
+}
+
+.requestContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 16px;
+  padding-top: 16px
+}
+
+.acceptButton {
+  margin-left: 16px;
+  margin-right: 16px
+}

@@ -1,0 +1,68 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+
+.mainDiv {
+  margin-top: calc(var(--topNavHeight));
+}
+
+.mainCard {
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+.journalTitle {
+  width: 100%;
+  text-align: center;
+  font-size: 28pt;
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+  border: 0;
+  margin-top: 10px;
+  padding-top: 5px;
+}
+
+input:focus {
+  outline-color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+}
+
+.templatePanel {
+  width: 50%;
+  margin-top: 2%;
+  font-size: 14pt;
+}
+
+.templateSubtitle {
+  padding: 5px 5px 5px 5px;
+  font-size: 20pt;
+  width: 100%;
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+  border-bottom: solid mat.get-theme-color($WorkflowManager-theme, accent, 700);
+  display: flow;
+}
+
+.journalPanel {
+  width: 50%;
+  margin-top: 2%;
+}
+
+.journalInput {
+  width: 100%;
+  margin-top: 5px;
+  line-height: 1.5;
+  background: white;
+  font-size: 14pt;
+}
+
+p {
+  text-align: justify;
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
+.colouredText {
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+}
+
+.dense-form {
+  @include mat.form-field-density(-5);
+}

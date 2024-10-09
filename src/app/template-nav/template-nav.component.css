@@ -1,0 +1,9 @@
+.sideNav {
+    width: var(--sideNavWidth);
+    height: 100%;
+    top: var(--topNavOffset);
+    padding-top: 10px;
+    background-color: var(--sideNavColour);
+    border-right: 3px solid var(--borderColour);
+    overflow: hidden;
+}

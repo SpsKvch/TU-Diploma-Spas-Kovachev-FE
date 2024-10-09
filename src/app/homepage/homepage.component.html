@@ -1,0 +1,113 @@
+<div style="margin-top: calc(var(--topNavHeight) + 30px);">
+    <div id="filters" class="mainPanel">
+        <mat-card style="width: 90%;">
+            <mat-card-header class="cardTitle">Search</mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="filtersForm">
+
+              <div style="display: flex; width: 100%; align-items: center">
+                <input class="searchbar" style="width: 100%; margin-right: 16px" placeholder="Title..." formControlName="title">
+                <div style="display: grid; margin-left: 16px">
+                  <mat-label style="margin-left: 8px; margin-right: 16px; white-space: nowrap; grid-row: 1 ">Approval Percent: </mat-label>
+                  <mat-slider discrete min="0" max="100" style="margin-right: 16px; width: 300px; grid-row: 2" [displayWith]="formatCompletionRate">
+                    <input matSliderThumb formControlName="minApproval">
+                  </mat-slider>
+                </div>
+
+              </div>
+
+              <div style="display: flex; margin-left: 24px; margin-top: 16px; align-items: center;">
+                <div style="display: grid">
+                  <mat-label style="grid-row: 1; padding-bottom: 4px; padding-left: 16px">Created Between: </mat-label>
+                  <mat-form-field style="grid-row: 2">
+                    <mat-label>Enter date range</mat-label>
+                    <mat-hint style="font-size: 10pt">DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-input [rangePicker]="picker">
+                      <input matStartDate placeholder="Start date" formControlName="minDate">
+                      <input matEndDate placeholder="End date" formControlName="maxDate">
+                    </mat-date-range-input>
+                    <mat-date-range-picker #picker>
+                      <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                      </mat-date-range-picker-actions>
+                    </mat-date-range-picker>
+                  </mat-form-field>
+                </div>
+
+                <div style="display: grid; margin-left: 16px; margin-right: 16px; width: 40%">
+                  <div style="grid-row: 1;">
+                    <mat-label style="margin-right: 5px; margin-left: 16px">Time to Complete</mat-label>
+                    <mat-checkbox [checked]="completionRateEnabled" (click)="toggleCompletionRate()"></mat-checkbox>
+                    <mat-form-field class="denseField" subscriptSizing="dynamic" style="padding-left: 5px">
+                      <mat-select formControlName="completionTimePeriod" [disabled]="!completionRateEnabled">
+                        <mat-option *ngFor="let frame of timeframeValues" [value]="frame" (click)="setCompletionTimeConstraint(frame)">{{ frame }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <mat-slider discrete showTickMarks [min]="0" [max]="completionTimeConstraint" [disabled]="!completionRateEnabled"
+                              style="grid-row: 2; margin-right: 16px; margin-bottom: 24px; width: 100%">
+                    <input matSliderThumb formControlName="maxCompletionTime">
+                  </mat-slider>
+                </div>
+
+                <div style="margin-left: auto; margin-top: 8px">
+                  <mat-label>Original:</mat-label>
+                  <mat-checkbox formControlName="isOriginal"></mat-checkbox>
+                </div>
+
+                <div style="display: grid; margin-left: auto">
+                  <mat-label style="grid-row: 1; margin-left: 8px">Min. Completion Rate:</mat-label>
+                  <mat-slider style="grid-row: 2; width: 300px; margin-right: 16px" min="0" max="100"
+                              discrete [displayWith]="formatCompletionRate">
+                    <input formControlName="completionRate" matSliderThumb value="50">
+                  </mat-slider>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center">
+                <div style="margin-left: 24px; margin-top: 16px; margin-right: 16px;">
+                  <mat-form-field>
+                    <mat-label>Category</mat-label>
+                    <input matInput [matAutocomplete]="auto"  formControlName="category">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let category of getCategories()" [value]="category" (click)="loadTags(category)">{{category}}</mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+
+                <div style="width: 100%; margin-right: 16px">
+                  <mat-card *ngIf="loadedTags.length > 0">
+                    <mat-card-header>Tags</mat-card-header>
+                    <mat-card-content>
+                      <mat-chip-listbox multiple formControlName="tags">
+                        <mat-chip-option *ngFor="let tag of loadedTags" color="primary">{{tag}}</mat-chip-option>
+                      </mat-chip-listbox>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+
+              <div style="display: flex">
+                <button mat-flat-button color="primary" type="submit"
+                        style="margin-left: auto; margin-right: 16px; margin-top: 16px" (click)="getTemplatesFiltered()">Search</button>
+              </div>
+
+            </form>
+          </mat-card-content>
+        </mat-card>
+    </div>
+    <div id="templates" class="mainPanel">
+        <mat-card style="width: 90%;">
+            <mat-card-header class="cardTitle">Templates</mat-card-header>
+            <mat-card-content>
+              <mat-paginator [length]="page?.content!.length" [pageSize]="pageSize"
+                             (page)="switchPage($event)"></mat-paginator>
+              <app-template-preview *ngFor="let template of templates" [template]="template"></app-template-preview>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<!-- <button (click)="redirectToTemplate()"></button> -->
+<!-- <a [routerLink]="['/templates/656b7c0cab82844f3fe9e41f']" routerLinkActive="active" >Clicky</a> -->

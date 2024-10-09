@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+
+.pageColours {
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+}
+
+.profilePagePadding {
+  padding-top: 2.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.the-dense-zone {
+  @include mat.form-field-density(-5);
+}

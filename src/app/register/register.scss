@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+@import "../template-view/template-view.component.css";
+@import "../login/login.scss";
+
+.registrationContainer {
+  top: 40%;
+  left: 40%;
+  position: fixed;
+}
+
+.paramContainer {
+  padding-bottom: 5px;
+  padding-left: 5px;
+}

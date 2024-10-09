@@ -1,0 +1,25 @@
+<div class="mainContainerOffset" style="display: flex; align-items: center; justify-content: center; height: calc(100vh - var(--topNavHeight))">
+  <mat-card style="width: 300px">
+    <mat-card-header class="loginHeader">Login</mat-card-header>
+    <mat-card-content>
+      <div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="usernameContainer" style="margin-top: 10px">
+            <mat-label class="credentialsLabel">Enter username or email:</mat-label>
+            <input  class="credentialsInput" type="text" value="Username or email..." formControlName="username">
+          </div>
+          <div class="passwordContainer">
+            <mat-label class="credentialsLabel">Enter password:</mat-label>
+            <input class="credentialsInput" type="password" formControlName="password">
+          </div>
+          <div style="display: flex; align-items: center">
+            <button mat-stroked-button color="primary" class="submitButton" type="submit">Submit</button>
+              <mat-label *ngIf="errorMessage" style="color: red; margin-bottom: 15px; margin-right: 5px; margin-left: auto">{{errorMessage}}</mat-label><br>
+          </div>
+          <a href="register" class="registerLink">Register Instead?</a>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

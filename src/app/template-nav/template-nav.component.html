@@ -1,0 +1,26 @@
+<div id="sideNav" class="navBar sideNav" *ngIf="templateDetails">
+  <div style="display: grid;">
+    <div>
+      <button mat-button color="primary" class="navRedirectMain" (click)="sendNav('title')" style="grid-row: 1">{{concatLabel(templateDetails.title)}}</button><br>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <button mat-button color="primary" class="navRedirectMain" (click)="sendNav('requirements')" style="grid-row: 2;">Requirements</button>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <button mat-button color="primary" class="navRedirectMain" (click)="sendNav('steps')" style="grid-row: 3;">Steps</button>
+      <div>
+        <button mat-button color="primary" *ngFor="let step of templateDetails.steps" (click)="sendNav(step)"
+                class="navRedirectSub">{{concatLabel(step)}}</button>
+      </div>
+    </div>
+    <div *ngIf="isCompleteTemplate()">
+      <mat-divider></mat-divider>
+      <div>
+        <button mat-button color="primary" class="navRedirectMain" (click)="sendNav('information')" style="grid-row: 4;">Information</button>
+      </div>
+    </div>
+
+  </div>
+</div>

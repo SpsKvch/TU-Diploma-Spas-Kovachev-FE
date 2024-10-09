@@ -1,0 +1,31 @@
+<div class="registrationContainer">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <label class="registrationLabel">Register</label>
+        <div class="paramContainer">
+            <label class="paramLabel">Email:</label>
+            <input class="paramInput" type="text" formControlName="email">
+        </div>
+        <div class="paramContainer">
+            <label class="paramLabel">Username:</label>
+            <input class="paramInput" type="text" formControlName="username">
+        </div>
+        <div class="paramContainer">
+            <label class="paramLabel">First Name:</label>
+            <input class="paramInput" type="text" formControlName="firstName">
+        </div>
+        <div class="paramContainer">
+            <label class="paramLabel">Last Name:</label>
+            <input class="paramInput" type="text" formControlName="lastName">
+        </div>
+        <div class="paramContainer">
+            <p *ngIf="passwordMatchMessage != ''">{{passwordMatchMessage}}</p>
+            <label class="paramLabel">Password:</label>
+            <input class="paramInput" type="password" formControlName="password">
+        </div>
+        <div class="paramContainer">
+            <label class="paramLabel">Confirm Password:</label>
+            <input class="paramInput" type="password" formControlName="confirmPassword">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>

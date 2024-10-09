@@ -1,0 +1,52 @@
+<div>
+  <div>
+    <div style="margin-top: 16px; margin-bottom: 16px">
+      <mat-label class="dialogHeader">Friends List</mat-label>
+    </div>
+    <mat-card>
+      <div *ngIf="friends">
+        <mat-card *ngFor="let friend of friends">
+          <div class="requestContainer">
+            <a class="friendName" (click)="closeDialog(friend.username)">{{ friend.username }}</a>
+            <div style="margin-left: auto">
+              <button mat-raised-button style="margin-left: 16px; margin-right: 16px " color="warn"
+                      (click)="removeFriend(friend.username)">Remove Friend</button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngIf="receivedRequests.length > 0" style="max-height: 200px;">
+    <div style="margin-top: 16px; margin-bottom: 16px">
+      <mat-label class="dialogHeader">Received Requests</mat-label>
+    </div>
+    <mat-card>
+      <mat-card *ngFor="let request of receivedRequests">
+        <div class="requestContainer">
+          <a class="friendName" (click)="closeDialog(request.sender)">{{ request.sender }}</a>
+          <div style="margin-left: auto">
+            <button mat-raised-button color="warn" (click)="declineRequest(request.sender)">Decline</button>
+            <button mat-raised-button color="primary" style="margin-left: 16px; margin-right: 16px "
+                    (click)="acceptRequest(request.sender)">Accept
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </mat-card>
+  </div>
+  <div *ngIf="sentRequests.length > 0" style="max-height: 200px">
+    <div style="margin-top: 16px; margin-bottom: 16px">
+      <mat-label class="dialogHeader">Sent Requests</mat-label>
+    </div>
+    <mat-card *ngIf="sentRequests">
+      <mat-card *ngFor="let request of sentRequests">
+        <div class="requestContainer">
+          <a style="padding-left: 16px; padding-top: 16px; padding-right: 16px" class="friendName"
+             (click)="closeDialog(request.recipient)">{{ request.recipient }}</a>
+          <mat-label style="margin-left: auto; margin-right: 24px">{{ 'Sent on: ' + getConvertedDate(request.sendDate) }}</mat-label>
+        </div>
+      </mat-card>
+    </mat-card>
+  </div>
+</div>

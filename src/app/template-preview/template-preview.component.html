@@ -1,0 +1,39 @@
+<mat-card *ngIf="template" style="margin-bottom: 8px; margin-right: 32px; margin-left: 32px">
+  <mat-card-header style="padding-bottom: 16px;">
+    <a [routerLink]="'/templates/' + template.id" class="templateLink">{{template.title}}</a>
+  </mat-card-header>
+  <mat-card-content style="width: 90%; align-self: center">
+    <div style="display: flex">
+      <p>{{getTruncatedContent()}}</p>
+    </div>
+
+    <div style="display: flex;">
+      <mat-label style="margin-right: 8px; font-size: 14pt">Created by:</mat-label>
+      <a [routerLink]="'/users/'+template.creatorName" style="text-decoration: none; font-size: 14pt; font-family: Roboto">{{template.creatorName}}</a>
+      <div style="margin-left: auto; align-items: center; justify-content: center">
+        <mat-icon style="padding-right: 8px; font-size: 20px" matTooltip="Rough Time Estimate">access_time</mat-icon>
+      </div>
+      <mat-label class="colouredText">{{getTimeString()}}</mat-label>
+    </div>
+
+    <div style="display: flex; margin-top: 16px; margin-bottom: 16px; align-items: center;">
+      <a class="colouredText" style="margin-right: 8px">{{template.category}}</a>
+      <div style="display: flex; justify-content: center; align-items: center; margin-right: 8px; margin-left: auto">
+        <mat-icon matTooltip="Approvals" style="padding-right: 8px">thumb_up</mat-icon>
+        <mat-label class="colouredText">{{calcApprovals(template.approvals, template.totalEngagements)}}</mat-label>
+      </div>
+      <mat-label class="colouredText" style="margin-left: auto">{{'Created on: ' + formatDate()}}</mat-label>
+      <mat-label class="colouredText" style="margin-left: auto">{{template.views + ' Views'}}</mat-label>
+    </div>
+
+    <div style="display: flex" *ngIf="template.tags.length > 0">
+      <mat-card style="width: 100%">
+        <mat-card-header class="colouredText" style="padding-top: 16px; padding-left: 16px; font-size: 12pt">Tags</mat-card-header>
+        <mat-chip-set style="margin-left: 24px; margin-top: 16px; margin-bottom: 16px">
+          <mat-chip color="primary" *ngFor="let tag of template.tags" class="tag">{{tag}}</mat-chip>
+        </mat-chip-set>
+      </mat-card>
+    </div>
+
+  </mat-card-content>
+</mat-card>

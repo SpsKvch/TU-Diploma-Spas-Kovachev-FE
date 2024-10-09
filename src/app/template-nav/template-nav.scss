@@ -1,0 +1,33 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+@import "../template-view/template-view.component.css";
+
+.sideNav {
+  width: var(--sideNavWidth);
+  height: 100%;
+  top: var(--topNavHeight);
+  padding-top: 10px;
+  background-color: white;
+  border-top: 5px solid mat.get-theme-color($WorkflowManager-theme, primary,400);;;
+  border-right: 5px solid mat.get-theme-color($WorkflowManager-theme, primary,400);;
+  overflow: hidden;
+}
+
+.navRedirectMain {
+  font-size: 18px;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: flex-start;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 8px;
+}
+
+.navRedirectSub {
+  font-size: 14px;
+  margin-left: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 100%;
+  justify-content: flex-start
+}

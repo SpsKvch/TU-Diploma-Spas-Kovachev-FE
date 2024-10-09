@@ -1,0 +1,20 @@
+<div class="mainContainerOffset" style="display: flex; align-items: center; justify-content: center; height: calc(100vh - var(--topNavHeight))">
+    <div class="loginPanel">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="loginForm">
+            <div *ngIf="errorMessage" >
+                <label class="errorLabel">{{errorMessage}}</label><br>
+            </div>
+            <label class="loginLabel">Login</label><br>
+            <div class="usernameContainer">
+                <label class="credentialsLabel">Enter username or email:</label><br>
+                <input class="credentialsInput" type="text" value="Username or email..." formControlName="username">
+            </div>
+            <div class="passwordContainer">
+                <label class="credentialsLabel">Enter password:</label><br>
+                <input class="credentialsInput" type="password" formControlName="password">
+            </div>
+            <button type="submit">Submit</button>
+            <a href="register">Register instead</a>
+        </form>
+    </div>
+</div>

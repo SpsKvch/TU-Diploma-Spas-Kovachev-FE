@@ -1,0 +1,71 @@
+<app-template-nav></app-template-nav>
+<div *ngIf="template;else errorPanel">
+    <div class="functionBar">
+        <div class="functionGrid">
+            <label>{{template.accessStatus}}</label>
+            <div class="branchPane">
+                <i>{{"Branches: " + template.branches}}</i>
+            </div>
+            <div class="viewPane">
+                <i>{{"Views: " + template.views}}</i>
+            </div>
+            <div class="approvalPane">
+                <button>Up</button>
+                <button>Down</button>
+                <b>{{calcApprovalPercent(template)}}</b>
+            </div>
+            <button class="branchButton" (click)="toBranchTemplate()">Branch</button>
+        </div>
+    </div>
+
+    <div class="mainContainer templateSideNavOffset">
+        <div class="containerPadding containerBorder" style="margin-top: 0%">
+            <div class="templateBody">
+                <b class="title">{{template.title}}</b>
+                <p class="content">{{template.content}}</p>
+                <div *ngIf="template.requirements" class="subTemplateOffset">
+                    <div>
+                        <label class="requirementTitle" style="padding-left: 3%;">Requirements</label>
+                        <ul style="list-style-type: none; padding-inline-start: 0px;">
+                            <li *ngFor="let req of template.requirements" class="content">{{req.content}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="stepContainer">
+                <div *ngFor="let step of template.steps" class="subTemplateOffset">
+                    <div class="stepHeader">
+                        <b class="stepTitle">{{step.title}}</b>
+                        <!--Implement custom pipe for duration-->
+                        <i class="timeEstimate">{{step.minTimeEstimate}}</i>
+                    </div>
+                    <p id="stepContent" class="content">{{step.content}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="containerPadding infoContainer containerBorder">
+            <div>
+                <b>{{"Created By: " + template.creatorName}}</b>
+            </div>
+            <!-- <i class="approvalPercent">{{"Approvals: " + calcApprovalPercent(template)}}</i> -->
+            <i style="margin-left: auto;">{{determineBranchStatus()}}</i>
+        </div>
+        <div class="containerPadding containerBorder" style="padding-left: inherit;">
+            <div class="categoryContainer" style="padding-bottom: 5px;">
+                <b class="templateTitle">{{template.category}}</b>
+            </div>
+            <div class="categoryContainer">
+                <i *ngFor="let tag of template.tags">{{tag}}</i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #errorPanel>
+    <div *ngIf="errorBody" class="mainContainer" style="margin-top: 100px;">
+        <p>
+            {{errorBody.messages[0]}}
+        </p>
+    </div>
+</ng-template>

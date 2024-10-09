@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+
+.pageColours {
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+}
+
+.paramInput {
+  font-size: 16pt;
+  width: 80%;
+  margin-bottom: 24px;
+}

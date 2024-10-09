@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Add Image</h2>
+<mat-dialog-content>
+  <div>
+    <div style="width: 100%">
+      <mat-form-field style="width: 100%">
+        <input matNativeControl placeholder="Enter image url..."  (input)="checkImage($event)" (keydown)="omitCharacters($event)">
+      </mat-form-field>
+    </div>
+    <div *ngIf="imageUrl">
+      <img [ngSrc]="imageUrl" width=250 height=250 (error)="validateImage()">
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div style="width: 100%; height: 30px">
+    <mat-label *ngIf="errorMessage" style="color: red; padding-left: 16px;">{{errorMessage}}</mat-label>
+  </div>
+  <button mat-stroked-button (click)="closeDialog()" style="margin-left:24px" color="primary">Close</button>
+
+</mat-dialog-actions>

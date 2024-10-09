@@ -1,0 +1,151 @@
+<app-template-nav (navEvent)="working($event)" [templateDetails]="navInit"></app-template-nav>
+<div *ngIf="template;else errorPanel">
+  <div class="functionBar">
+    <div class="functionGrid">
+      <div>
+        <mat-label>Status:</mat-label>
+        <mat-label class="barParam">{{template.accessStatus}}</mat-label>
+      </div>
+      <div class="branchPane">
+        <mat-label>Branches:</mat-label>
+        <mat-label class="barParam">{{template.branches}}</mat-label>
+      </div>
+      <div>
+        <mat-label>Views:</mat-label>
+        <mat-label class="barParam">{{template.views}}</mat-label>
+      </div>
+      <div class="approvalPane">
+        <button mat-icon-button (click)="updateApprovals(true)" class="approvalButton" [style.border]="setSelectedApproval(true)">
+          <mat-icon>thumb_up</mat-icon>
+        </button>
+        <button mat-icon-button (click)="updateApprovals(false)" class="approvalButton" [style.border]="setSelectedApproval(false)">
+          <mat-icon>thumb_down</mat-icon>
+        </button>
+        <mat-label style="font-size: 16pt">{{calcApprovalPercent(template.approvals, template.totalEngagements)}}</mat-label>
+      </div>
+      <div style="display: flex; justify-content: center" >
+        <button mat-raised-button color="primary" style="width: 75%" (click)="trackTemplate()">Track</button>
+      </div>
+      <div style="display: flex; justify-content: center" [matTooltip]="nonBranchableMessage">
+        <button mat-raised-button color="primary" style="width: 75%" (click)="toBranchTemplate()" [disabled]="!branchable" >Branch</button>
+      </div>
+
+    </div>
+  </div>
+
+  <mat-card class="mainCard">
+    <mat-card-header class="titleHeader" id="title">{{template.title}}</mat-card-header>
+    <div class="imageBorder" style="width: 100%; justify-content: center; align-items: center; display: flex; flex-wrap: wrap; padding-top: 24px; margin-bottom: 24px">
+      <mat-card *ngIf="template.imageUrl" style="width: 95%; height: 300px;">
+        <img [ngSrc]="template.imageUrl" fill>
+      </mat-card>
+    </div>
+    <mat-card-content>
+      <div class="contentContainer">
+        <p class="content">{{template.content}}</p>
+      </div>
+      <mat-expansion-panel *ngIf="template.requirements" class="subContainer" [expanded]="true" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-label class="requirementTitle" id="requirements">Requirements</mat-label>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item *ngFor="let req of template.requirements" class="content">
+            <div style="display: flex; align-items: center">
+              <p style="font-size: 14pt">{{req.content}}</p>
+              <mat-icon matTooltip="Requirement is optional" *ngIf="req.optional" style="margin-left: auto">
+                done_outline
+              </mat-icon>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <mat-expansion-panel class="subContainer" [expanded]="true" hideToggle>
+        <mat-expansion-panel-header style="display: flex">
+          <mat-label style="width: 70%" id="steps">Steps</mat-label>
+          <div style="font-size: 12pt; display: flex; align-items: center;  margin-left: auto; padding-right: 16px">
+            <mat-icon *ngIf="totalEstimate" style="padding-right: 8px;"
+                      matTooltip="Rough estimated time for completion of all steps">access_time
+            </mat-icon>
+            Total: {{totalEstimate}}
+          </div>
+        </mat-expansion-panel-header>
+        <mat-expansion-panel *ngFor="let step of template.steps" expanded="true" [style.border]="setOutline(step)"
+                             hideToggle>
+          <mat-expansion-panel-header class="stepTitle" >
+            <mat-label style="width: 70%">{{step.title}}</mat-label>
+            <div style="font-size: 12pt; display: flex; align-items: center" [id]="step.title">
+              <mat-icon style="padding-right: 8px" matTooltip="Estimated time for completion of the step">access_time
+              </mat-icon>
+              Estimate: {{getTimeEstimateString(step)}}
+            </div>
+            <div style="margin-left: auto;">
+              <mat-icon style="padding-right: 16px" *ngIf="step.optional" matTooltip="This step is optional">
+                done_outline
+              </mat-icon>
+              <mat-icon style="padding-right: 16px" *ngIf="step.important" matTooltip="Important">error_outline
+              </mat-icon>
+            </div>
+          </mat-expansion-panel-header>
+
+          <div style="width: 100%; display: flex">
+            <p class="stepContent" style="width: 70%">{{step.content}}</p>
+            <div style="width: 30%;">
+              <mat-card *ngIf="step.imageUrl" style="width: 250px; height: 250px">
+                <img mat-card-md-image [ngSrc]="step.imageUrl" width="250" height="250">
+              </mat-card>
+            </div>
+            <!--            <p class="stepContent">{{step.content}}</p>-->
+          </div>
+        </mat-expansion-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel id="information" class="subContainer" expanded="true" hideToggle>
+        <mat-expansion-panel-header>Information</mat-expansion-panel-header>
+        <div style="font-size: 16pt;">
+          <div>
+            <mat-label>Created by:</mat-label>
+            <a [routerLink]="'/users/'+template.creatorName" style="padding-left: 16px">{{template.creatorName}}</a>
+          </div>
+          <mat-divider style="margin-top: 16px; margin-bottom: 16px"></mat-divider>
+          <div>
+            <mat-label>Created on:</mat-label>
+            <mat-label style="padding-left: 16px">{{getConvertedDate(template.createTime)}}</mat-label>
+          </div>
+          <mat-divider style="margin-top: 16px; margin-bottom: 16px"></mat-divider>
+          <div *ngIf="template.parentDetails && parentIsVisible()">
+            <div>
+              <mat-label>Branched from:</mat-label>
+              <a style="margin-left: 16px;">{{template.parentDetails.parentId}}</a>
+              <mat-divider style="margin-top: 16px; margin-bottom: 16px"></mat-divider>
+            </div>
+          </div>
+          <div>
+            <mat-label>Category:</mat-label>
+            <a style="margin-left: 16px;">{{template.category}}</a>
+          </div>
+          <mat-divider style="margin-top: 16px; margin-bottom: 16px"></mat-divider>
+          <mat-card>
+            <mat-card-header  style="padding-top: 8px; padding-left: 8px; font-size: 12pt">Tags</mat-card-header>
+            <mat-chip-set style="margin-left: 24px; margin-top: 16px; margin-bottom: 16px">
+              <mat-chip color="primary" *ngFor="let tag of template.tags" class="tag">{{tag}}</mat-chip>
+            </mat-chip-set>
+<!--            <div style="margin-top: 16px; margin-bottom: 24px">-->
+<!--              <label class="tagChip" *ngFor="let tag of template.tags">-->
+<!--                {{tag}}-->
+<!--              </label>-->
+<!--            </div>-->
+          </mat-card>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<ng-template #errorPanel>
+  <div *ngIf="errorBody" class="mainContainer" style="margin-top: 100px;">
+    <p>
+      {{errorBody.messages[0]}}
+    </p>
+  </div>
+</ng-template>

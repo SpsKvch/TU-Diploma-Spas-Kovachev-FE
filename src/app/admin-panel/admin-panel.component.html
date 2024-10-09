@@ -1,0 +1,64 @@
+<div class="mainContainerOffset pageColours" style="padding-top: 2.5%; padding-left: 5%; padding-right: 5%; font-size: 24pt">
+  <mat-card>
+    <mat-card-header style="padding-left: 16px; padding-bottom: 16px">
+      Admin Panel
+    </mat-card-header>
+    <mat-card-content>
+      <div style="display: flex">
+        <div class="paramInput">
+          <mat-form-field style="width: 90%">
+            <mat-label>Complete template ID</mat-label>
+            <input type="text" matNativeControl [(ngModel)]="templateId">
+          </mat-form-field>
+        </div>
+        <div style="margin-left: auto; padding-right: 2%">
+          <button mat-raised-button color="warn" (click)="deleteTemplate()"
+                  style="font-size: 16pt; padding-right: 48px; padding-left: 48px">Delete</button>
+        </div>
+      </div>
+      <div style="display: flex">
+        <div class="paramInput">
+          <mat-form-field style="width: 90%">
+            <mat-label>Category</mat-label>
+            <input type="text" matNativeControl [(ngModel)]="categoryName">
+          </mat-form-field>
+        </div>
+        <div style="margin-left: auto; padding-right: 2%; display: flex;">
+          <button mat-raised-button color="primary" (click)="addCategory()"
+                  style="font-size: 16pt; padding-right: 48px; padding-left: 48px; margin-right: 24px">Put</button>
+<!--          <button mat-raised-button color="primary" (click)="updateCategory()"-->
+<!--                  style="font-size: 16pt; padding-right: 48px; padding-left: 48px; margin-right: 24px">Update</button>-->
+          <button mat-raised-button color="warn"  (click)="deleteCategory()"
+                  style="font-size: 16pt; padding-right: 48px; padding-left: 48px">Delete</button>
+        </div>
+      </div>
+      <div style="display: flex">
+        <mat-form-field style="min-height: 112px; width: 75%; font-size: 12pt">
+          <mat-label>Add tags to selected category</mat-label>
+          <mat-chip-grid #chipGrid>
+            <mat-chip-row *ngFor="let tag of selectedTags"
+                          (removed)="remove(tag)"
+                          [editable]="true"
+                          (edited)="edit(tag, $event)"
+                          [aria-description]="'press enter to edit ' + tag"> {{tag}}
+              <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="Tags..."
+                   [matChipInputFor]="chipGrid"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="true"
+                   (matChipInputTokenEnd)="add($event)"/>
+          </mat-chip-grid>
+        </mat-form-field>
+        <div style="margin-left: auto; margin-right: 2%; justify-content: center">
+          <div>
+            <button mat-raised-button color="primary" (click)="clearTags()"
+                    style="font-size: 16pt; padding-right: 48px; padding-left: 48px">Clear</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

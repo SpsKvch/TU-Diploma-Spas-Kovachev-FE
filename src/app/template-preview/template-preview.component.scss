@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+
+.templateLink, a:visited {
+  text-decoration: none;
+  color: mat.get-theme-color($WorkflowManager-theme, accent, 700);
+  font-size: 16pt;
+  margin-left: 8px;
+}
+
+.tag {
+  border: 1px solid mat.get-theme-color($WorkflowManager-theme, primary, 500);
+}
+
+.colouredText {
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 500);
+}

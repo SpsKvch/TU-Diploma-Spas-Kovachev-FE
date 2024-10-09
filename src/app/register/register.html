@@ -1,0 +1,69 @@
+<div class="mainContainerOffset" style="display: flex; align-items: center; justify-content: center; height: calc(100vh - var(--topNavHeight))">
+  <mat-card>
+    <mat-card-header class="loginHeader">Register</mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="paramContainer" style="margin-top: 10px">
+          <mat-label class="credentialsLabel">Email:</mat-label>
+          <input class="credentialsInput" type="text" formControlName="email">
+        </div>
+        <div class="paramContainer">
+          <mat-label class="credentialsLabel">Username:</mat-label>
+          <input class="credentialsInput" type="text" formControlName="username">
+        </div>
+        <div class="paramContainer">
+          <mat-label class="credentialsLabel">First Name:</mat-label>
+          <input class="credentialsInput" type="text" formControlName="firstName">
+        </div>
+        <div class="paramContainer">
+          <mat-label class="credentialsLabel">Last Name:</mat-label>
+          <input class="credentialsInput" type="text" formControlName="lastName">
+        </div>
+        <div class="paramContainer">
+          <!--TODO Make this a generic message and handle errors from be-->
+          <p *ngIf="passwordMatchMessage != ''">{{passwordMatchMessage}}</p>
+          <mat-label class="credentialsLabel">Password:</mat-label>
+          <input class="credentialsInput" type="password" formControlName="password">
+        </div>
+        <div class="paramContainer">
+          <mat-label class="credentialsLabel">Confirm Password:</mat-label>
+          <input class="credentialsInput" type="password" formControlName="confirmPassword">
+        </div>
+        <button mat-stroked-button color="primary" class="submitButton" type="submit">Submit</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<!--<div class="registrationContainer">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <label class="registrationLabel">Register</label>
+    <div class="paramContainer">
+      <label class="paramLabel">Email:</label>
+      <input class="paramInput" type="text" formControlName="email">
+    </div>
+    <div class="paramContainer">
+      <label class="paramLabel">Username:</label>
+      <input class="paramInput" type="text" formControlName="username">
+    </div>
+    <div class="paramContainer">
+      <label class="paramLabel">First Name:</label>
+      <input class="paramInput" type="text" formControlName="firstName">
+    </div>
+    <div class="paramContainer">
+      <label class="paramLabel">Last Name:</label>
+      <input class="paramInput" type="text" formControlName="lastName">
+    </div>
+    <div class="paramContainer">
+      <p *ngIf="passwordMatchMessage != ''">{{passwordMatchMessage}}</p>
+      <label class="paramLabel">Password:</label>
+      <input class="paramInput" type="password" formControlName="password">
+    </div>
+    <div class="paramContainer">
+      <label class="paramLabel">Confirm Password:</label>
+      <input class="paramInput" type="password" formControlName="confirmPassword">
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>-->

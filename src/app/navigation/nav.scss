@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+
+.mat-input-wrapper{
+  width:400px !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  width: 500px;
+}
+
+.the-dense-zone {
+  @include mat.form-field-density(-5);
+}
+
+.pageLink {
+  margin-right: 15px;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+

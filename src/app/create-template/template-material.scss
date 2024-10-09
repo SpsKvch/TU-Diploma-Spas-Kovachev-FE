@@ -1,0 +1,150 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+@import "../template-view/template-view.component.css";
+
+:local {
+  --mdc-filled-text-field-container-color: red;
+}
+
+.mat-expansion-panel-header-title {
+  font-family: 'Nunito';
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+}
+
+::ng-deep {
+  .mat-expansion-panel-body {
+    padding-left: 0;
+  }
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: mat.get-theme-color($WorkflowManager-theme, primary, 100)
+}
+
+.mainPanel {
+  margin-left: var(--mainContainerLeftMargin);
+  margin-bottom: 15px;
+  margin-top: 15px;
+  left: 0px;
+  padding: 15px 15px 0px 15px;
+  width: 75%;
+  border: 2px solid;
+  border-radius: 20px;
+  border-color: mat.get-theme-color($WorkflowManager-theme, accent, 400);
+}
+
+.expansionPanel {
+  font-size: 20pt;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+  border-color: mat.get-theme-color($WorkflowManager-theme, accent, 400);
+  //background: mat.get-theme-color($WorkflowManager-theme, primary, 50)
+}
+
+.expansionHeader {
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 400);
+  font-size: 24pt;
+}
+
+.titleInput {
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 400);
+  font-size: 18pt;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 80%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  border-width: 0px;
+}
+
+.titleInput:focus {
+  outline-color: mat.get-theme-color($WorkflowManager-theme, accent, 400);
+}
+
+.inputBox {
+  border: 1px solid;
+  box-shadow: 1px 1px;
+  border-radius: 10px;
+  padding: 2% 2% 2% 2%;
+}
+
+.inputLabel {
+  font-size: 20pt;
+  margin: 10px 0px 10px 0px;
+}
+
+.titleTextArea {
+  resize: none;
+  width: 95%;
+  font-size: 16pt;
+  height: 28px;
+}
+
+.stepTextArea {
+  resize: none;
+  width: 95%;
+  //height: 24px;
+  font-size: 14pt;
+  line-height: 150%;
+  text-align: justify;
+  overflow: hidden;
+}
+
+.genericCheckbox {
+  margin-left: 10px;
+  font-size: 16pt;
+}
+
+.controlButton {
+  font-size: 12pt;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: 20px;
+  text-align: center;
+  align-content: center;
+}
+
+.timeLabel {
+  font-size: 10pt;
+  margin-right: 2%;
+}
+
+.timeInput {
+  width: 50px;
+  text-align: center;
+  font-size: 10pt;
+  height: 15px;
+}
+
+.timeDropdown {
+  padding-left: 10px;
+  padding-right: 10px;;
+  font-size: 10pt;
+  height: 20px;
+}
+
+.timeEstimateLabel {
+  font-size: 16pt;
+  width: 32px;
+  display: inline-block;
+  padding-left: 16px;
+  text-align: center
+}
+
+mat-slider {
+  width: 250px;
+  font-size: 10pt;
+}
+
+.custom-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

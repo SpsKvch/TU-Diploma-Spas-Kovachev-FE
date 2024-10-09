@@ -1,0 +1,113 @@
+<div *ngIf="journal && journalRequestForm" class="mainDiv" [formGroup]="journalRequestForm">
+  <mat-card class="mainCard">
+    <mat-card-header>
+      <input matNativeControl [placeholder]="template.title" formControlName="title" class="journalTitle">
+    </mat-card-header>
+    <mat-card-content>
+      <div id="contentMarkup">
+        <label class="templateSubtitle">Content</label>
+        <div style="display: flex">
+          <div class="templatePanel">
+            <mat-form-field appearance="outline" class="journalInput">
+              <textarea matInput [placeholder]="template.content" formControlName="content"
+                        cdkTextareaAutosize cdkAutosizeMaxRows="20" style="overflow: hidden"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="journalPanel">
+            <mat-form-field appearance="outline" class="journalInput" style="margin-left: 16px; margin-right: 16px">
+              <mat-label>Notes</mat-label>
+              <textarea matInput placeholder="Enter text here..." cdkTextareaAutosize></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <label class="templateSubtitle">Requirements</label>
+        <div formArrayName="requirements">
+          <div style="display: flex; justify-content: center; align-items: center" *ngFor="let req of template.requirements; let i = index">
+            <div class="templatePanel" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="journalInput">
+                <textarea matInput cdkTextareaAutosize formControlName="content"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="journalPanel colouredText" style="padding-top: 5px; margin-left: auto; display: flex; justify-content: center; align-items: center">
+              <mat-label style="margin-left: auto; font-size: 20pt">Completed: </mat-label>
+              <mat-checkbox style="margin-right: 2%" [matTooltip]="getOptionalTooltip(req)"></mat-checkbox>
+            </div>
+          </div>
+        </div>
+        <label class="templateSubtitle">Steps</label>
+        <div formArrayName="steps">
+          <div *ngFor="let step of template.steps; let i=index">
+            <div [formGroupName]="i">
+              <div style="width: 100%">
+                <input matNativeControl [placeholder]="step.title" formControlName="title" class="journalTitle">
+              </div>
+              <div style="display: flex;">
+                <div class="templatePanel">
+                  <mat-form-field appearance="outline" class="journalInput">
+                <textarea matInput [matTooltip]="step.content" [placeholder]="step.content" matTooltipPosition="right"
+                          matTooltipClass="tooltipBox"
+                          cdkTextareaAutosize cdkAutosizeMaxRows="15" formControlName="content" style="overflow: hidden"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="journalPanel" style="align-content: center; padding-left: 2.5%">
+                  <mat-form-field appearance="outline" class="journalInput" style="width: 100%">
+                    <mat-label>Notes</mat-label>
+                    <textarea matInput formControlName="notes[0]" placeholder="Enter text here..." cdkTextareaAutosize></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div style="width: 100%; display: flex; justify-content: center; align-items: center">
+                <div>
+                  <mat-form-field appearance="outline" class="dense-form">
+                    <mat-select style="text-align: center" formControlName="progressionStatus">
+                      <mat-option *ngFor="let status of progressionStatusValues" [value]="status">{{ status }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div style="display: flex; justify-content: center; text-align: center; align-items: center; margin-left: auto" formGroupName="timeSpentDuration">
+                  <mat-form-field style="width: 15%;" appearance="outline" class="dense-form">
+                    <mat-label style="text-align: center">Time</mat-label>
+                    <input maxlength="2" style="align-self: center; text-align: center" matNativeControl formControlName="duration">
+                  </mat-form-field>
+                  <mat-form-field style="width: 25%" appearance="outline" class="dense-form">
+                    <mat-label>Spent</mat-label>
+                    <mat-select style="text-align: center" formControlName="timeframe">
+                      <mat-option *ngFor="let frame of timeframeValues" [value]="frame">{{ frame }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div style="display: flex; margin-left: auto; margin-right: 2%; font-size: 20pt" class="colouredText">
+                  <div>
+                    <mat-label>Ignore</mat-label>
+                    <mat-checkbox></mat-checkbox>
+                  </div>
+                  <div>
+                    <mat-label>Complete</mat-label>
+                    <mat-checkbox></mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 100%; margin: 2%; font-size: 24pt">
+          <mat-label class="colouredText">{{ 'Status: ' + ProgressionStatus[journal.currentStatus]}}</mat-label>
+        </div>
+        <div style="display: flex">
+          <button mat-raised-button color="primary" type="submit" style="margin-left: 2%; margin-right: 2%" (click)="updateJournal()">Save Journal</button>
+          <button mat-raised-button color="primary" (click)="convertToDraft()">Convert to Draft</button>
+          <div class="colouredText" style="display: flex; margin-left: auto; font-size: 16pt">
+            <div>
+              <mat-label>Ignore Abandoned</mat-label>
+              <mat-checkbox></mat-checkbox>
+            </div>
+            <div>
+              <mat-label>Delete On Conversion</mat-label>
+              <mat-checkbox></mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

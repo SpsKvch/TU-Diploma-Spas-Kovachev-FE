@@ -1,0 +1,30 @@
+.navBar {
+    position: fixed;
+    overflow: hidden;
+    left: 0;
+    z-index: 1;
+}
+
+.topNav {
+    width: 100%;
+    height: var(--topNavHeight);
+    top: 0;
+    padding-top: var(--topNavPadding);
+    background-color: var(--topNavColour);
+    border-bottom: 3px solid var(--borderColour);
+    box-shadow: 0px 3px 0px 0px inset;
+}
+
+#mainNav {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: inherit;
+    top: 0;
+    position: fixed;
+}
+
+#mainNav>* {
+    margin-left: 10px;
+    margin-right: 10px;
+}

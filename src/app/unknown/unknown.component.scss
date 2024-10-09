@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+
+.centerContainer {
+  position: relative;
+  height: 100%;
+}
+
+.textHolderContainer {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.notFoundText {
+  font-size: 48pt;
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 700);
+  font-family: Roboto;
+}

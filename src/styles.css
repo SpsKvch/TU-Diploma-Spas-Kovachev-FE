@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+body
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+p, b, i, li, a {
+    font-family: 'Nunito';
+}
+
+input, label {
+    font-family: 'Roboto Flex';
+}
+
+:root {
+    --topNavHeight: 64px;
+    --topNavPadding: 5px;
+    --topNavOffset: calc(var(--topNavHeight) + var(--topNavPadding));
+    --mainContainerTopMargin: calc(var(--topNavOffset) + 15px);
+    --mainContainerLeftMargin: calc(var(--sideNavWidth) + 15px);
+    --sideNavWidth: 240px;
+    --topNavColour: #fbe5d2;
+    --sideNavColour: #ffefe3;
+    --borderColour: #ffc599;
+    --subTemplateTitleOffset: 3%;
+    --mat-form-field-container-vertical-padding: 10px;
+}
+
+.mainContainerOffset {
+    margin-top: calc(var(--topNavHeight) + var(--topNavPadding));
+}
+
+.templateSideNavOffset {
+    margin-left: var(--sideNavWidth);
+}
+
+.navBar {
+    position: fixed;
+    overflow: hidden;
+    left: 0;
+}
+
+.mainButton {
+  border: none;
+  width: 100px;
+  height: 30px;
+  font-size: 14pt;
+  background-color: #c06722;
+  color: white;
+  border-radius: 5px;
+}
+
+.tooltipBox {
+  max-width: 1000px !important;
+}
+
+.mainButton:hover {
+  background-color: #e47c2d;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-form-field-no-padding .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+}

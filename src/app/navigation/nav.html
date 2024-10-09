@@ -1,0 +1,20 @@
+<mat-toolbar color="primary"  class="the-dense-zone" style="position: fixed; top: 0; left: 0; z-index: 1000;">
+  <a [routerLink]="'/home'" class="pageLink">Home</a>
+  <a [routerLink]="'/templates/myDrafts/new'" class="pageLink">Create</a>
+  <a [routerLink]="'/users'" class="pageLink">Users</a>
+<!--  <mat-form-field subscriptSizing="dynamic" style="width: 70%">-->
+<!--    <mat-icon matPrefix>search</mat-icon>-->
+<!--    <input matInput placeholder="Search...">-->
+<!--  </mat-form-field>-->
+  <div style="margin-left: auto; display: flex; justify-content: center; align-items: center">
+    <button *ngIf="isLoggedIn" mat-mini-fab color="primary" style="scale: 80%; margin-right: 16px" (click)="openDialog()"
+            [matBadge]="pendingFriendRequests" matBadgeSize="medium" matBadgeColor="warn">
+      <mat-icon >supervisor_account</mat-icon>
+    </button>
+    <button mat-raised-button *ngIf="!isLoggedIn; else userField" (click)="redirectToLogin()">Login</button>
+    <ng-template #userField>
+      <a href={{userPageRedirect}} style="margin-left: auto; padding-right: 10px; padding-left: 10px; text-decoration: none; color: white">{{username}}</a>
+    </ng-template>
+  </div>
+
+</mat-toolbar>

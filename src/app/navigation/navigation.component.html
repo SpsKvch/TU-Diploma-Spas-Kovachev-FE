@@ -1,0 +1,12 @@
+<div id="navBar" class="navBar topNav">
+    <nav id="mainNav">
+      <label>Option 1</label>
+      <a>Option 2</a>
+      <a>Option 3</a>
+      <input type="text" id="searchBox" style="width: 40%;" value="Search">
+      <button style="margin-left: auto; padding-right: 10px;" *ngIf="!isLoggedIn; else userField" (click)="redirectToLogin()">Login</button>
+      <ng-template #userField>
+        <a href={{userPageRedirect}} style="margin-left: auto; padding-right: 10px; text-decoration: none;">{{username}}</a>
+      </ng-template>
+    </nav>
+  </div>

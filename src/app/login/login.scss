@@ -1,0 +1,66 @@
+@use '@angular/material' as mat;
+@import "../../custom-theme.scss";
+@import "../template-view/template-view.component.css";
+
+.loginPanel {
+  align-self: middle;
+  position: relative;
+  margin-bottom: 50px;
+  /*margin-top: calc(var(--topNavHeight) + 30px);
+  margin-left: calc(var(--sideNavWidth) + 30px);*/
+}
+
+.loginForm {
+  border: 2px solid;
+  box-shadow: 2px;
+  border-radius: 20px;
+  padding: 20px 10px 20px 10px;
+}
+
+.errorLabel {
+  border: 5px solid;
+  border-color: red;
+  color: white;
+  background-color: red;
+  padding: 5px 5px 5px 5px;
+  margin: 5px 5px 10px 5px;
+  display: inline-block;
+}
+
+.loginHeader {
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 400);
+  font-size: 16pt;
+}
+
+.credentialsLabel {
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 400);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+.credentialsInput {
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.credentialsInput:focus {
+  outline: none !important;
+  border: 2px solid mat.get-theme-color($WorkflowManager-theme, primary, 400);
+}
+
+.submitButton {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 15px;
+}
+
+.registerLink {
+  margin-top: 5px;
+  margin-left: 5px;
+  color: mat.get-theme-color($WorkflowManager-theme, primary, 400);
+  text-decoration: none;
+}
